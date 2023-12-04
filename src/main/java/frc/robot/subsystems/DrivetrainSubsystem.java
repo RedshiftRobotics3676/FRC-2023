@@ -27,6 +27,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.music.Orchestra;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderSimCollection;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
@@ -115,10 +116,10 @@ public final AHRS m_navx = new AHRS(Port.kMXP); // NavX connected over MXP
   private WPI_CANCoder c3 = new WPI_CANCoder(23);
   private WPI_CANCoder c4 = new WPI_CANCoder(24);
 
-  CANCoderSimCollection c1Sim = c1.getSimCollection();
+  /* CANCoderSimCollection c1Sim = c1.getSimCollection();
   CANCoderSimCollection c2Sim = c2.getSimCollection();
   CANCoderSimCollection c3Sim = c3.getSimCollection();
-  CANCoderSimCollection c4Sim = c4.getSimCollection();
+  CANCoderSimCollection c4Sim = c4.getSimCollection(); */
 
 
   public PIDController driftCorrection_pid;
@@ -134,16 +135,25 @@ public final AHRS m_navx = new AHRS(Port.kMXP); // NavX connected over MXP
   // SIMULATION STUFF
   private final Field2d m_field = new Field2d(); //Simulation field widget thingy
 
-  WPI_TalonFX flDrive = new WPI_TalonFX(FRONT_LEFT_MODULE_DRIVE_MOTOR);
+  /* WPI_TalonFX flDrive = new WPI_TalonFX(FRONT_LEFT_MODULE_DRIVE_MOTOR);
   WPI_TalonFX flSteer = new WPI_TalonFX(FRONT_LEFT_MODULE_STEER_MOTOR);
+  WPI_TalonFX frDrive = new WPI_TalonFX(FRONT_RIGHT_MODULE_DRIVE_MOTOR);
+  WPI_TalonFX frSteer = new WPI_TalonFX(FRONT_RIGHT_MODULE_STEER_MOTOR);
+  WPI_TalonFX blDrive = new WPI_TalonFX(BACK_LEFT_MODULE_DRIVE_MOTOR);
+  WPI_TalonFX blSteer = new WPI_TalonFX(BACK_LEFT_MODULE_STEER_MOTOR);
+  WPI_TalonFX brDrive = new WPI_TalonFX(BACK_RIGHT_MODULE_DRIVE_MOTOR);
+  WPI_TalonFX brSteer = new WPI_TalonFX(BACK_RIGHT_MODULE_STEER_MOTOR);
   
   TalonFXSimCollection flDriveSim = flDrive.getSimCollection();
-  TalonFXSimCollection flSteerSim = flSteer.getSimCollection();
+  TalonFXSimCollection flSteerSim = flSteer.getSimCollection(); */
   
   //CANCoderSimCollection frCANCoderSim = c1.getSimCollection();
   //////
   //frDriveSim
 
+  //Silly Orchestra Thingy
+/*   Orchestra orch = new Orchestra();
+ */
   public DrivetrainSubsystem() {
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
     m_navx.enableBoardlevelYawReset(true);
@@ -235,11 +245,23 @@ public final AHRS m_navx = new AHRS(Port.kMXP); // NavX connected over MXP
                                                         new Pose2d(0, 0, new Rotation2d(0))); */
 
 
-        flSteer.set(ControlMode.Position, 0);
+        //flSteer.set(ControlMode.Position, 0);
 
         // found online don't really know what this is
         // int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
         // SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
+
+        /* orch.addInstrument(flDrive);
+        orch.addInstrument(flSteer);
+        orch.addInstrument(frDrive);
+        orch.addInstrument(frSteer);
+        orch.addInstrument(blDrive);
+        orch.addInstrument(blSteer);
+        orch.addInstrument(brDrive);
+        orch.addInstrument(brSteer);
+
+        //chirp file in src/main/deploy
+        orch.loadMusic("all i want for christmas is you.chrp"); */
 
   }
 
@@ -371,6 +393,15 @@ public final AHRS m_navx = new AHRS(Port.kMXP); // NavX connected over MXP
         MAX_VOLTAGE = x;
   }
 
+  /* public void playOrPause() {
+        if (orch.isPlaying()) {
+                orch.pause();
+        }
+        else {
+                orch.play();
+        }
+  } */
+
 //   public command        
 
   @Override
@@ -380,25 +411,25 @@ public final AHRS m_navx = new AHRS(Port.kMXP); // NavX connected over MXP
     SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
-    SmartDashboard.putNumber("CANCoder 1", c1.getPosition());
+//     SmartDashboard.putNumber("CANCoder 1", c1.getPosition());
     SmartDashboard.putNumber("CANCoder 1 Absolute", c1.getAbsolutePosition());
-    SmartDashboard.putNumber("CANCoder 2", c2.getPosition());
+//     SmartDashboard.putNumber("CANCoder 2", c2.getPosition());
     SmartDashboard.putNumber("CANCoder 2 Absolute", c2.getAbsolutePosition());
-    SmartDashboard.putNumber("CANCoder 3", c3.getPosition());
+//     SmartDashboard.putNumber("CANCoder 3", c3.getPosition());
     SmartDashboard.putNumber("CANCoder 3 Absolute", c3.getAbsolutePosition());
-    SmartDashboard.putNumber("CANCoder 4", c4.getPosition());
+//     SmartDashboard.putNumber("CANCoder 4", c4.getPosition());
     SmartDashboard.putNumber("CANCoder 4 Absolute", c4.getAbsolutePosition());
 
-    SmartDashboard.putNumber("SIM CANCoder 1", c1.getPosition());
+    /* SmartDashboard.putNumber("SIM CANCoder 1", c1.getPosition());
     SmartDashboard.putNumber("SIM CANCoder 1 Absolute", c1.getAbsolutePosition());
     SmartDashboard.putNumber("SIM CANCoder 2", c2.getPosition());
     SmartDashboard.putNumber("SIM CANCoder 2 Absolute", c2.getAbsolutePosition());
     SmartDashboard.putNumber("SIM CANCoder 3", c3.getPosition());
     SmartDashboard.putNumber("SIM CANCoder 3 Absolute", c3.getAbsolutePosition());
     SmartDashboard.putNumber("SIM CANCoder 4", c4.getPosition());
-    SmartDashboard.putNumber("SIM CANCoder 4 Absolute", c4.getAbsolutePosition());
+    SmartDashboard.putNumber("SIM CANCoder 4 Absolute", c4.getAbsolutePosition()); */
 
-    c1Sim.setRawPosition((int) c1.getPosition());
+//     c1Sim.setRawPosition((int) c1.getPosition());
 
     SmartDashboard.putNumber("NavX Yaw", m_navx.getYaw());
     SmartDashboard.putNumber("NavX Pitch", getPitch());

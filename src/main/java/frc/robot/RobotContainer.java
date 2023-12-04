@@ -80,7 +80,7 @@ public class RobotContainer implements Supplier<Boolean>{
   public final static RetroLimelight m_retroLimelight = new RetroLimelight();
   // public final Camera camera = new Camera();
   // public int count = 0;
-  public final NewIntake m_newIntake = new NewIntake();
+  // public final NewIntake m_newIntake = new NewIntake();
 
   // public NewCamera camera = new NewCamera();
   
@@ -141,7 +141,10 @@ public class RobotContainer implements Supplier<Boolean>{
     Trigger zeroButton = new JoystickButton(m_controller2, 9);
     zeroButton.whileTrue(new RunCommand(() -> m_drivetrainSubsystem.zeroGyroscope(), m_drivetrainSubsystem));
 
-    Trigger setToZero = new JoystickButton(m_controller1, 4);
+    Trigger zeroButton1 = new JoystickButton(m_controller1, 8);
+    zeroButton1.whileTrue(new RunCommand(() -> m_drivetrainSubsystem.zeroGyroscope(), m_drivetrainSubsystem));
+
+    Trigger setToZero = new JoystickButton(m_controller1, 7);
     setToZero.whileTrue(new RunCommand(() -> m_drivetrainSubsystem.setToZero(), m_drivetrainSubsystem));
 
     // Trigger DriverCam = new JoystickButton(m_controller1, 8);
@@ -172,7 +175,7 @@ public class RobotContainer implements Supplier<Boolean>{
     Trigger cube_Shooter_Mid_button = new JoystickButton(m_controller2, cubeShooterMidButtonID);
     cube_Shooter_Mid_button.whileTrue(new CubeShooterMid(m_coneIntake, m_cubeIntake));
 
-    Trigger cubeIn1 = new JoystickButton(m_controller1, cubeInButtonID);
+    /* Trigger cubeIn1 = new JoystickButton(m_controller1, cubeInButtonID);
     cubeIn1.whileTrue(new NewIntakeIn(m_newIntake));
 
     Trigger cubeIn2 = new JoystickButton(m_controller2, cubeInButtonID);
@@ -182,7 +185,7 @@ public class RobotContainer implements Supplier<Boolean>{
     cubeOut1.whileTrue(new NewIntakeOut(m_newIntake));
 
     Trigger cubeOut2 = new JoystickButton(m_controller2, cubeOutButtonID);
-    cubeOut2.whileTrue(new NewIntakeOut(m_newIntake));
+    cubeOut2.whileTrue(new NewIntakeOut(m_newIntake)); */
 
     POVButton up = new POVButton(m_controller2, 0);
     up.onTrue(new ElevatorLevelTwo(m_elevator));
@@ -199,6 +202,10 @@ public class RobotContainer implements Supplier<Boolean>{
 
     Trigger cube_Shooter_Low_button = new JoystickButton(m_controller2, cubeShooterLowButtonID);
     cube_Shooter_Low_button.whileTrue(new CubeShooterLow(m_coneIntake, m_cubeIntake, m_elevator));
+
+    /* Trigger music = new JoystickButton(m_controller1, 5);
+     music.whileTrue(new RunCommand(() -> m_drivetrainSubsystem.playOrPause(), m_drivetrainSubsystem));
+    */
 
 
 
@@ -307,9 +314,9 @@ public class RobotContainer implements Supplier<Boolean>{
     // gGreen.whileTrue(new GuitarGreen(m_newIntake, gStickF.getAsBoolean()))
 
       // gGreen.whileTrue(new GuitarGreen(m_guitar, m_newIntake, m_drivetrainSubsystem));
-      gGreen.whileTrue(new NewIntakeIn(m_newIntake));
+      // gGreen.whileTrue(new NewIntakeIn(m_newIntake));
       gRed.whileTrue(new CubeShooterHigh(m_coneIntake, m_cubeIntake));
-      gYellow.whileTrue(new NewIntakeOut(m_newIntake));
+      // gYellow.whileTrue(new NewIntakeOut(m_newIntake));
       gBlue.whileTrue(new GuitarRotate(m_drivetrainSubsystem, true));
       gOrange.whileTrue(new GuitarRotate(m_drivetrainSubsystem, false)); 
 
